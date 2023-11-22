@@ -195,6 +195,6 @@ end
 
 return require("telescope").register_extension({
 	exports = {
-		lazygit_toggleterm = run,
+        git_submodules = run,
 	},
 })
