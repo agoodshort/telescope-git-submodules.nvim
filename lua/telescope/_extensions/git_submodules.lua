@@ -7,16 +7,24 @@ local entry_display = require("telescope.pickers.entry_display")
 local conf = require("telescope.config").values
 local Terminal = require("toggleterm.terminal").Terminal
 
--- TODO: allow user to select which terminal to use, not just 9
+local setup_opts = {
+	git_cmd = "lazygit",
+	terminal_count = 9,
+}
+
 -- Mention the pointer in the unception thing
--- TODO: allow user to select the cmd they want, default to lazygit
-local function open_git_tool(selection)
+local function open_git_tool(opts, selection)
 	if selection == nil then
 		selection = action_state.get_selected_entry().value -- picking the repo_name from the item received
 	end
 	local dir_name = vim.fn.substitute(vim.fn.getcwd(), "^.*/", "", "")
-	local git_tool =
-		Terminal:new({ cmd = "lazygit", close_on_exit = true, hidden = true, direction = "float", count = 9 })
+	local git_tool = Terminal:new({
+		cmd = opts.git_cmd,
+		close_on_exit = true,
+		hidden = true,
+		direction = "float",
+		count = opts.terminal_count,
+	})
 
 	if selection == dir_name then
 		git_tool.dir = vim.fn.getcwd()
@@ -35,7 +43,7 @@ local function prepare_repos()
 	local check_git_repository = tonumber(vim.fn.system("git rev-parse 2>/dev/null; echo $?")) -- if 0, then it's a git repo
 
 	if check_git_repository ~= 0 then
-		table.insert(items, { nil, current_dir_name, "Not a git repostory" })
+		table.insert(items, { nil, current_dir_name, "Not a git repository" })
 	else
 		-- Adding current repo to table
 		local current_dir_head = vim.fn.system("git rev-parse --abbrev-ref HEAD")
@@ -106,13 +114,15 @@ local function prepare_repos()
 end
 
 local show_repos = function(opts)
+	opts = vim.tbl_extend("force", setup_opts, opts or {})
+
 	local items = prepare_repos()
 
 	if table.getn(items) == 1 then
-		open_git_tool(items[1][2])
+		open_git_tool(opts, items[1][2])
 	else
 		pickers
-			.new(opts or {}, {
+			.new(opts, {
 				prompt_title = "Git Submodules",
 				finder = finders.new_table({
 					results = items,
@@ -162,7 +172,7 @@ local show_repos = function(opts)
 						-- shall be done after closing the buffer manually
 						actions.close(prompt_buf)
 
-						open_git_tool(nil)
+						open_git_tool(opts, nil)
 					end)
 					return true
 				end,
@@ -189,12 +199,13 @@ local show_repos = function(opts)
 	end
 end
 
-local function run()
-	show_repos()
-end
-
 return require("telescope").register_extension({
+	setup = function(ext_config)
+		for k, v in pairs(ext_config) do
+			setup_opts[k] = v
+		end
+	end,
 	exports = {
-        git_submodules = run,
+		git_submodules = show_repos,
 	},
 })
