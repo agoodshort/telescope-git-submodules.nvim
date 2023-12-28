@@ -2,12 +2,14 @@
 
 A customizable Telescope extension to list the git submodules of your current project and interact with them through the git TUI of your choice.
 
+<https://github.com/agoodshort/telescope-git-submodules.nvim/assets/33832653/5d13113f-16a2-40f7-91e4-816827234240>
+
 ## Features
 
 - List the git submodules of the currently opened project
 - Preview the files changes for each submodule directly in Telescope
 - Run the git TUI (or command) of your choice when selecting a submodule in Telescope
-- Bypass Telescope if only one repo/submodule should be displayed
+- Bypass Telescope if only one repo/submodule would be displayed in Telescope
 
 ## Installation
 
@@ -33,17 +35,17 @@ return {
 The extension comes with the following defaults:
 
 ```lua
-  require("telescope").setup({
-  	extensions = {
-  		git_submodules = {
-  			git_cmd = "lazygit",
-  			terminal_id = 9,
-  		},
-  	},
-  })
+require("telescope").setup({
+	extensions = {
+		git_submodules = {
+			git_cmd = "lazygit",
+			terminal_id = 9,
+		},
+	},
+})
 ```
 
-### Extension Spec
+### Extension Specs
 
 | Property    | Type    | Default Value | Description                      |
 |-------------|---------|---------------|----------------------------------|
