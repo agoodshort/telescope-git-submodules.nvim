@@ -9,7 +9,7 @@ local Terminal = require("toggleterm.terminal").Terminal
 
 local setup_opts = {
 	git_cmd = "lazygit",
-	terminal_count = 9,
+	terminal_id = 9,
 }
 
 -- Mention the pointer in the unception thing
@@ -23,7 +23,7 @@ local function open_git_tool(opts, selection)
 		close_on_exit = true,
 		hidden = true,
 		direction = "float",
-		count = opts.terminal_count,
+		count = opts.terminal_id,
 	})
 
 	if selection == dir_name then
