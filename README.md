@@ -30,6 +30,12 @@ return {
 }
 ```
 
+### Requirements
+
+- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
+- [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
+- `git`
+
 ## Configuration
 
 The extension comes with the following defaults:
@@ -49,13 +55,13 @@ require("telescope").setup({
 
 | Property    | Type    | Default Value | Description                      |
 |-------------|---------|---------------|----------------------------------|
-| git_cmd     | string? | "lazygit"     | `git` TUI command of your choice |
+| git_cmd     | string? | "lazygit"     | git TUI command of your choice   |
 | terminal_id | number? | 9             | Terminal ID toggleterm will use  |
 
 ## Roadmap
 
 - [ ] Keymap to trigger `:DiffView` for the highlighted submodule
-- [ ] If there is interest, support additional terminal plugins (e.g., [nvim-terminal](https://github.com/s1n7ax/nvim-terminal))
+- [ ] Support additional terminal plugins (e.g., [nvim-terminal](https://github.com/s1n7ax/nvim-terminal))
 
 ## Acknowledgements
 
