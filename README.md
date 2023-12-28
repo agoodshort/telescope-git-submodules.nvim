@@ -1,4 +1,4 @@
-# telescope-git-submodule.nvim
+# telescope-git-submodules.nvim
 
 A customizable Telescope extension to list the git submodules of your current project and interact with them through the git TUI of your choice.
 
