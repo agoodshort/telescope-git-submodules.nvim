@@ -199,13 +199,18 @@ local show_repos = function(opts)
 	end
 end
 
-return require("telescope").register_extension({
-	setup = function(ext_config)
-		for k, v in pairs(ext_config) do
-			setup_opts[k] = v
-		end
-	end,
-	exports = {
-		git_submodules = show_repos,
-	},
-})
+if vim.fn.executable("git") == 0 then
+	print("telescope-git-submodules: git not in path. Cannot register extension.")
+	return
+else
+	return require("telescope").register_extension({
+		setup = function(ext_config)
+			for k, v in pairs(ext_config) do
+				setup_opts[k] = v
+			end
+		end,
+		exports = {
+			git_submodules = show_repos,
+		},
+	})
+end

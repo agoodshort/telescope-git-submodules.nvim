@@ -30,12 +30,6 @@ return {
 }
 ```
 
-### Requirements
-
-- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
-- [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim)
-- `git`
-
 ## Configuration
 
 The extension comes with the following defaults:
