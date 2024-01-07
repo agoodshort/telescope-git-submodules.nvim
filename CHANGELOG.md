@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/agoodshort/telescope-git-submodules.nvim/compare/v1.0.0...v1.1.0) (2024-01-07)
+
+
+### Features
+
+* display message if `git` is not in path ([d0a7c71](https://github.com/agoodshort/telescope-git-submodules.nvim/commit/d0a7c71f502cf51a421f7c80e953dad776388684))
+
 ## 1.0.0 (2023-12-28)
 
 
