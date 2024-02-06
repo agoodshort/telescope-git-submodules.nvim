@@ -2,13 +2,13 @@ local pickers = require("telescope.pickers")
 local finders = require("telescope.finders")
 local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
-local previewers = require("telescope.previewers")
 local entry_display = require("telescope.pickers.entry_display")
 local conf = require("telescope.config").values
 local Terminal = require("toggleterm.terminal").Terminal
 
 local setup_opts = {
 	git_cmd = "lazygit",
+	previewer = true,
 	terminal_id = 9,
 }
 
@@ -121,6 +121,28 @@ local show_repos = function(opts)
 	if table.getn(items) == 1 then
 		open_git_tool(opts, items[1][2])
 	else
+		local previewer_config = nil
+		if opts.previewer == true then
+			previewer_config = require("telescope.previewers").new_buffer_previewer({
+				define_preview = function(self, entry, status)
+					local dir_name = vim.fn.substitute(vim.fn.getcwd(), "^.*/", "", "")
+					local t = {}
+					if entry.value == dir_name then
+						local s = vim.fn.system("git status -s")
+						for chunk in string.gmatch(s, "[^\n]+") do
+							t[#t + 1] = chunk
+						end
+					else
+						local s = vim.fn.system("git -C " .. entry.value .. " status -s")
+						for chunk in string.gmatch(s, "[^\n]+") do
+							t[#t + 1] = chunk
+						end
+					end
+					vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, true, t)
+				end,
+			})
+		end
+
 		pickers
 			.new(opts, {
 				prompt_title = "Git Submodules",
@@ -176,24 +198,7 @@ local show_repos = function(opts)
 					end)
 					return true
 				end,
-				previewer = previewers.new_buffer_previewer({
-					define_preview = function(self, entry, status)
-						local dir_name = vim.fn.substitute(vim.fn.getcwd(), "^.*/", "", "")
-						local t = {}
-						if entry.value == dir_name then
-							local s = vim.fn.system("git status -s")
-							for chunk in string.gmatch(s, "[^\n]+") do
-								t[#t + 1] = chunk
-							end
-						else
-							local s = vim.fn.system("git -C " .. entry.value .. " status -s")
-							for chunk in string.gmatch(s, "[^\n]+") do
-								t[#t + 1] = chunk
-							end
-						end
-						vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, true, t)
-					end,
-				}),
+				previewer = previewer_config,
 			})
 			:find()
 	end

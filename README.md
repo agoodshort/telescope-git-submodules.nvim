@@ -39,6 +39,7 @@ require("telescope").setup({
 	extensions = {
 		git_submodules = {
 			git_cmd = "lazygit",
+			previewer = true,
 			terminal_id = 9,
 		},
 	},
@@ -47,10 +48,11 @@ require("telescope").setup({
 
 ### Extension Specs
 
-| Property    | Type    | Default Value | Description                      |
-|-------------|---------|---------------|----------------------------------|
-| git_cmd     | string? | "lazygit"     | git TUI command of your choice   |
-| terminal_id | number? | 9             | Terminal ID toggleterm will use  |
+| Property    | Type    | Default Value | Description                               |
+|-------------|---------|---------------|-------------------------------------------|
+| git_cmd     | string? | "lazygit"     | git TUI command of your choice            |
+| previewer   | boolean | true          | Preview submodule changes in Telescope    |
+| terminal_id | number? | 9             | Terminal ID toggleterm will use           |
 
 ## Roadmap
 
