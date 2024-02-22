@@ -41,6 +41,10 @@ require("telescope").setup({
 			git_cmd = "lazygit",
 			previewer = true,
 			terminal_id = 9,
+			find_subdirectories = {
+				enabled = false,
+				depth = 1,
+			},
 		},
 	},
 })
@@ -48,11 +52,12 @@ require("telescope").setup({
 
 ### Extension Specs
 
-| Property    | Type    | Default Value | Description                               |
-|-------------|---------|---------------|-------------------------------------------|
-| git_cmd     | string? | "lazygit"     | git TUI command of your choice            |
-| previewer   | boolean | true          | Preview submodule changes in Telescope    |
-| terminal_id | number? | 9             | Terminal ID toggleterm will use           |
+| Property            | Type       | Default Value | Description                                     |
+|---------------------|------------|---------------|-------------------------------------------------|
+| git_cmd             | `string?`  | `lazygit`     | git TUI command of your choice                  |
+| previewer           | `boolean?` | `true`        | Preview submodule changes in Telescope          |
+| terminal_id         | `number?`  | `9`           | Terminal ID toggleterm will use                 |
+| find_subdirectories | `table?`   |               | Find subdirectories without using submodules    |
 
 ## Roadmap
 
@@ -61,7 +66,7 @@ require("telescope").setup({
 
 ## Remarks
 
-The extension works well with [nvim-unception](https://github.com/samjwill/nvim-unception), if the same `terminal_id` value is used in both configurations. Example in [agoodshort's nvim-unception configuration](https://github.com/agoodshort/nvim/blob/e9e89782e124e3c666097edeb0603317b8e72320/lua/agoodshort/plugins/terminal/nvim-unception.lua#L11)
+The extension works well with [nvim-unception](https://github.com/samjwill/nvim-unception), if the same `terminal_id` value is used in both configurations. Example in [agoodshort's nvim-unception configuration](https://github.com/agoodshort/nvim/blob/e9e89782e124e3c666097edeb0603317b8e72320/lua/agoodshort/plugins/terminal/nvim-unception.lua#L11).
 
 ## Acknowledgements
 
