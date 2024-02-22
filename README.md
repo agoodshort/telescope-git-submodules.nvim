@@ -59,6 +59,10 @@ require("telescope").setup({
 - [ ] Keymap to trigger `:DiffView` for the highlighted submodule
 - [ ] Support additional terminal plugins (e.g., [nvim-terminal](https://github.com/s1n7ax/nvim-terminal))
 
+## Remarks
+
+The extension works well with [nvim-unception](https://github.com/samjwill/nvim-unception), if the same `terminal_id` value is used in both configurations. Example in [agoodshort's nvim-unception configuration](https://github.com/agoodshort/nvim/blob/e9e89782e124e3c666097edeb0603317b8e72320/lua/agoodshort/plugins/terminal/nvim-unception.lua#L11)
+
 ## Acknowledgements
 
 Inspired by [lazygit.nvim](https://github.com/kdheepak/lazygit.nvim)

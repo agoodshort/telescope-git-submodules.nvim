@@ -12,7 +12,6 @@ local setup_opts = {
 	terminal_id = 9,
 }
 
--- Mention the pointer in the unception thing
 local function open_git_tool(opts, selection)
 	if selection == nil then
 		selection = action_state.get_selected_entry().value -- picking the repo_name from the item received
