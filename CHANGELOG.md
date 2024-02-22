@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/agoodshort/telescope-git-submodules.nvim/compare/v1.0.0...v1.1.0) (2024-02-22)
+
+
+### Features
+
+* add config to disable telescope previewer [#3](https://github.com/agoodshort/telescope-git-submodules.nvim/issues/3) ([e40ca42](https://github.com/agoodshort/telescope-git-submodules.nvim/commit/e40ca42a97f65c9661a5efce6283d9f73eda729c))
+* display message if `git` is not in path ([d0a7c71](https://github.com/agoodshort/telescope-git-submodules.nvim/commit/d0a7c71f502cf51a421f7c80e953dad776388684))
+
 ## 1.0.0 (2023-12-28)
 
 
