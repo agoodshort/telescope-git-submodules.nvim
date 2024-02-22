@@ -117,7 +117,7 @@ local show_repos = function(opts)
 
 	local items = prepare_repos()
 
-	if table.getn(items) == 1 then
+	if #items == 1 then
 		open_git_tool(opts, items[1][2])
 	else
 		local previewer_config = nil
