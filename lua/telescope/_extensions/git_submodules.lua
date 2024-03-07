@@ -10,6 +10,10 @@ local setup_opts = {
 	git_cmd = "lazygit",
 	previewer = true,
 	terminal_id = 9,
+	find_subdirectories = {
+		enabled = false,
+		depth = 1,
+	},
 }
 
 local function open_git_tool(opts, selection)
@@ -36,13 +40,24 @@ local function open_git_tool(opts, selection)
 	vim.cmd([[execute "normal i"]])
 end
 
-local function prepare_repos()
+local function prepare_repos(opts)
 	local items = {}
 	local current_dir_name = vim.fn.substitute(vim.fn.getcwd(), "^.*/", "", "")
-	local check_git_repository = tonumber(vim.fn.system("git rev-parse 2>/dev/null; echo $?")) -- if 0, then it's a git repo
+	local check_git_repository = tonumber(vim.fn.system("git rev-parse 2>/dev/null; echo $?"))
+	local submodules_script =
+		"git submodule foreach --recursive 'git rev-parse --abbrev-ref HEAD; git status -bs; echo Exiting'"
 
+	-- if not a git repo (if 0 it's a git repo)
 	if check_git_repository ~= 0 then
-		table.insert(items, { nil, current_dir_name, "Not a git repository" })
+		if opts.find_subdirectories.enabled == false then
+			table.insert(items, { nil, current_dir_name, "Not a git repository" })
+			return items
+		else
+			submodules_script = "find ./ -maxdepth "
+				.. opts.find_subdirectories.depth
+				.. " -name .git -type d -prune | "
+				.. "while read d; do echo Entering $d; git -C $d rev-parse --abbrev-ref HEAD; git -C $d status -bs; echo Exiting; done"
+		end
 	else
 		-- Adding current repo to table
 		local current_dir_head = vim.fn.system("git rev-parse --abbrev-ref HEAD")
@@ -70,52 +85,50 @@ local function prepare_repos()
 			current_dir_name,
 			current_dir_head:gsub("%\n", ""),
 		})
-
-		-- Adding submodules
-		local submodules_heads = vim.fn.system(
-			"git submodule foreach --recursive 'git rev-parse --abbrev-ref HEAD; git status -bs; echo Exiting'"
-		)
-		local i = 1
-		local entering
-		local repo_name
-		local repo_branch
-		local git_status_submodules = ""
-		for s in string.gmatch(submodules_heads, "[^" .. "\n" .. "]+") do
-			for w in string.gmatch(s, "[^" .. " " .. "]+") do
-				if entering == i then
-					repo_name = w:gsub("%'", ""):gsub("%'", "")
-				elseif entering == i - 1 then
-					repo_branch = s
-				elseif w == "Entering" then
-					entering = i
-				elseif w == "Exiting" then
-					table.insert(items, { git_status_submodules, repo_name, repo_branch })
-					git_status_submodules = ""
-				elseif w == "M" and string.find(git_status_submodules, "!") == nil then
-					git_status_submodules = git_status_submodules .. "!"
-				elseif w == "??" and string.find(git_status_submodules, "+") == nil then
-					git_status_submodules = git_status_submodules .. "+"
-				elseif w == "D" and string.find(git_status_submodules, "✘") == nil then
-					git_status_submodules = git_status_submodules .. "✘"
-				end
-				if w == "##" and string.find(git_status_submodules, "⇡") == nil and string.match(s, "ahead") then
-					git_status_submodules = git_status_submodules .. "⇡"
-				end
-				if w == "##" and string.find(git_status_submodules, "⇣") == nil and string.match(s, "behind") then
-					git_status_submodules = git_status_submodules .. "⇣"
-				end
-			end
-			i = i + 1
-		end
 	end
 
+	-- Adding submodules
+	local submodules_heads = vim.fn.system(submodules_script)
+	print(submodules_heads) -- TODO: to remove
+	local i = 1
+	local entering
+	local repo_name
+	local repo_branch
+	local git_status_submodules = ""
+	for s in string.gmatch(submodules_heads, "[^" .. "\n" .. "]+") do
+		for w in string.gmatch(s, "[^" .. " " .. "]+") do
+			if entering == i then
+				repo_name = w:gsub("%'", ""):gsub("%'", "")
+			elseif entering == i - 1 then
+				repo_branch = s
+			elseif w == "Entering" then
+				entering = i
+			elseif w == "Exiting" then
+				table.insert(items, { git_status_submodules, repo_name, repo_branch })
+				git_status_submodules = ""
+			elseif w == "M" and string.find(git_status_submodules, "!") == nil then
+				git_status_submodules = git_status_submodules .. "!"
+			elseif w == "??" and string.find(git_status_submodules, "+") == nil then
+				git_status_submodules = git_status_submodules .. "+"
+			elseif w == "D" and string.find(git_status_submodules, "✘") == nil then
+				git_status_submodules = git_status_submodules .. "✘"
+			end
+			if w == "##" and string.find(git_status_submodules, "⇡") == nil and string.match(s, "ahead") then
+				git_status_submodules = git_status_submodules .. "⇡"
+			end
+			if w == "##" and string.find(git_status_submodules, "⇣") == nil and string.match(s, "behind") then
+				git_status_submodules = git_status_submodules .. "⇣"
+			end
+		end
+		i = i + 1
+	end
 	return items
 end
 
 local show_repos = function(opts)
 	opts = vim.tbl_extend("force", setup_opts, opts or {})
 
-	local items = prepare_repos()
+	local items = prepare_repos(opts)
 
 	if #items == 1 then
 		open_git_tool(opts, items[1][2])
