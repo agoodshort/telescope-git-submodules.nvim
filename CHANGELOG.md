@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/agoodshort/telescope-git-submodules.nvim/compare/v1.1.0...v1.2.0) (2024-03-11)
+
+
+### Features
+
+* adds diffview.nvim support ([544ede7](https://github.com/agoodshort/telescope-git-submodules.nvim/commit/544ede70d2980e544793dc2d2e1a4e74c778cabf))
+
 ## [1.1.0](https://github.com/agoodshort/telescope-git-submodules.nvim/compare/v1.0.0...v1.1.0) (2024-02-22)
 
 
