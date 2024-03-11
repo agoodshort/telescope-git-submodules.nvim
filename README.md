@@ -1,6 +1,6 @@
 # telescope-git-submodules.nvim
 
-A customizable [telescope.nvim extension](https://github.com/nvim-telescope/telescope.nvim#extensions) to list the git submodules of your current project and interact with them through the git TUI of your choice.
+A customizable [telescope.nvim extension](https://github.com/nvim-telescope/telescope.nvim#extensions) to list the git submodules of your current project and interact with them through the git TUI of your choice through [toggleterm.nvim](https://github.com/akinsho/toggleterm.nvim).
 
 <https://github.com/agoodshort/telescope-git-submodules.nvim/assets/33832653/5d13113f-16a2-40f7-91e4-816827234240>
 
@@ -41,6 +41,7 @@ require("telescope").setup({
 			git_cmd = "lazygit",
 			previewer = true,
 			terminal_id = 9,
+			terminal_display_name = "Lazygit",
 			diffview_keymap = "<C-d>",
 		},
 	},
@@ -49,12 +50,13 @@ require("telescope").setup({
 
 ### Extension Specs
 
-| Property        | Type     | Default Value | Description                                                     |
-|-----------------|----------|---------------|-----------------------------------------------------------------|
-| git_cmd         | string?  | "lazygit"     | git TUI command of your choice                                  |
-| previewer       | boolean? | true          | Preview submodule changes in Telescope                          |
-| terminal_id     | number?  | 9             | Terminal ID toggleterm will use                                 |
-| diffview_keymap | string?  | "<C-d>"       | Keymap to trigger `:diffviewOpen` for the highlighted submodule |
+| Property              | Type     | Default Value | Description                                                              |
+|-----------------------|----------|---------------|--------------------------------------------------------------------------|
+| git_cmd               | string?  | "lazygit"     | git TUI command of your choice                                           |
+| previewer             | boolean? | true          | Preview submodule changes in Telescope                                   |
+| terminal_id           | number?  | 9             | Terminal ID toggleterm will use                                          |
+| terminal_display_name | string?  | "Lazygit"     | Terminal display name toggleterm will use                                |
+| diffview_keymap       | string?  | "<C-d>"       | Keymap to trigger `:diffviewOpen -C<path>` for the highlighted submodule |
 
 ## Plugin integration
 

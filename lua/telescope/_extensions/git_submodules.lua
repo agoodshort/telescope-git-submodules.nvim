@@ -10,6 +10,7 @@ local setup_opts = {
 	git_cmd = "lazygit",
 	previewer = true,
 	terminal_id = 9,
+	terminal_display_name = "Lazygit",
 	diffview_keymap = "<C-d>",
 }
 
@@ -24,6 +25,7 @@ local function open_git_tool(opts, selection)
 		hidden = true,
 		direction = "float",
 		count = opts.terminal_id,
+		display_name = opts.terminal_display_name,
 	})
 
 	if selection == dir_name then
