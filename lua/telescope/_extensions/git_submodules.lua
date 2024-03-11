@@ -10,6 +10,7 @@ local setup_opts = {
 	git_cmd = "lazygit",
 	previewer = true,
 	terminal_id = 9,
+	diffview_keymap = "<C-d>",
 }
 
 local function open_git_tool(opts, selection)
@@ -187,7 +188,7 @@ local show_repos = function(opts)
 					end,
 				}),
 				sorter = conf.generic_sorter(opts),
-				attach_mappings = function(prompt_buf, _)
+				attach_mappings = function(prompt_buf, map)
 					actions.select_default:replace(function()
 						-- for what ever reason any attempt to open an external window (such as lazygit)
 						-- shall be done after closing the buffer manually
@@ -195,6 +196,19 @@ local show_repos = function(opts)
 
 						open_git_tool(opts, nil)
 					end)
+					local diffviewInstalled, _ = pcall(require, "diffview")
+					if diffviewInstalled then
+						map({ "i", "n" }, opts.diffview_keymap, function()
+							local selection = action_state.get_selected_entry().value -- picking the repo_name from the item received
+							local dir_name = vim.fn.substitute(vim.fn.getcwd(), "^.*/", "", "")
+							local dir = vim.fn.getcwd()
+							if selection ~= dir_name then
+								dir = dir .. "/" .. selection
+							end
+							actions.close(prompt_buf)
+							vim.cmd(("DiffviewOpen -C%s"):format(dir))
+						end)
+					end
 					return true
 				end,
 				previewer = previewer_config,

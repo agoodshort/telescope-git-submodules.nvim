@@ -41,6 +41,7 @@ require("telescope").setup({
 			git_cmd = "lazygit",
 			previewer = true,
 			terminal_id = 9,
+			diffview_keymap = "<C-d>",
 		},
 	},
 })
@@ -48,20 +49,27 @@ require("telescope").setup({
 
 ### Extension Specs
 
-| Property    | Type    | Default Value | Description                               |
-|-------------|---------|---------------|-------------------------------------------|
-| git_cmd     | string? | "lazygit"     | git TUI command of your choice            |
-| previewer   | boolean | true          | Preview submodule changes in Telescope    |
-| terminal_id | number? | 9             | Terminal ID toggleterm will use           |
+| Property        | Type     | Default Value | Description                                                     |
+|-----------------|----------|---------------|-----------------------------------------------------------------|
+| git_cmd         | string?  | "lazygit"     | git TUI command of your choice                                  |
+| previewer       | boolean? | true          | Preview submodule changes in Telescope                          |
+| terminal_id     | number?  | 9             | Terminal ID toggleterm will use                                 |
+| diffview_keymap | string?  | "<C-d>"       | Keymap to trigger `:diffviewOpen` for the highlighted submodule |
+
+## Plugin integration
+
+### nvim-unception
+
+The extension integrates pretty well (at least from my personal experience) with [nvim-unception](https://github.com/samjwill/nvim-unception), if the same `terminal_id` value is used in both configurations. Example in [agoodshort's nvim-unception configuration](https://github.com/agoodshort/nvim/blob/e9e89782e124e3c666097edeb0603317b8e72320/lua/agoodshort/plugins/terminal/nvim-unception.lua#L11)
+
+### diffview.nvim
+
+If you have [diffview.nvim](https://github.com/sindrets/diffview.nvim), you can use the `diffview_keymap` to trigger `:diffviewOpen -C<path>` for the highlighted submodule.
 
 ## Roadmap
 
-- [ ] Keymap to trigger `:DiffView` for the highlighted submodule
 - [ ] Support additional terminal plugins (e.g., [nvim-terminal](https://github.com/s1n7ax/nvim-terminal))
-
-## Remarks
-
-The extension works well with [nvim-unception](https://github.com/samjwill/nvim-unception), if the same `terminal_id` value is used in both configurations. Example in [agoodshort's nvim-unception configuration](https://github.com/agoodshort/nvim/blob/e9e89782e124e3c666097edeb0603317b8e72320/lua/agoodshort/plugins/terminal/nvim-unception.lua#L11)
+- [ ] Add the option to point `:diffviewOpen` to `origin/HEAD`
 
 ## Acknowledgements
 
