@@ -86,7 +86,7 @@ local function prepare_repos()
 		for s in string.gmatch(submodules_heads, "[^" .. "\n" .. "]+") do
 			for w in string.gmatch(s, "[^" .. " " .. "]+") do
 				if entering == i then
-					repo_name = w:gsub("%'", ""):gsub("%'", "")
+					repo_name = (repo_name and repo_name .. " " or "") .. w:gsub("%'", ""):gsub("%'", "")
 				elseif entering == i - 1 then
 					repo_branch = s
 				elseif w == "Entering" then
@@ -135,7 +135,7 @@ local show_repos = function(opts)
 							t[#t + 1] = chunk
 						end
 					else
-						local s = vim.fn.system("git -C " .. entry.value .. " status -s")
+						local s = vim.fn.system('git -C "' .. entry.value .. '" status -s')
 						for chunk in string.gmatch(s, "[^\n]+") do
 							t[#t + 1] = chunk
 						end
@@ -208,7 +208,7 @@ local show_repos = function(opts)
 								dir = dir .. "/" .. selection
 							end
 							actions.close(prompt_buf)
-							vim.cmd(("DiffviewOpen -C%s"):format(dir))
+							vim.cmd(('DiffviewOpen -C"%s"'):format(dir))
 						end)
 					end
 					return true
