@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/agoodshort/telescope-git-submodules.nvim/compare/v1.2.0...v1.3.0) (2024-08-06)
+
+
+### Features
+
+* **toggleterm:** adds `display_name` for floating terminal ([ece2164](https://github.com/agoodshort/telescope-git-submodules.nvim/commit/ece2164d0171d01f7396420df5ef1cf82a910b60))
+
+
+### Bug Fixes
+
+* DiffviewOpen error with white spaces in path ([df221bf](https://github.com/agoodshort/telescope-git-submodules.nvim/commit/df221bf7d827fa103bc6b1c6cdfdeae3249e0180))
+
 ## [1.2.0](https://github.com/agoodshort/telescope-git-submodules.nvim/compare/v1.1.0...v1.2.0) (2024-03-11)
 
 
